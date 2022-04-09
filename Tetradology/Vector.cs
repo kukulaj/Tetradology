@@ -9,7 +9,7 @@ namespace Tetradology
     public class Vector
     {
         public int[] power;
-        public const int range = 2;
+        public const int range = 3;
         public Vector()
         {
             power = new int[range];
@@ -27,7 +27,7 @@ namespace Tetradology
         public void write(StreamWriter file, double t, double d)
         {
             double[] primes = new double[] {3, 5, 7, 11, 13, 17 };
-            int edo = 118;
+            int edo = 31;
 
             int pitch = 0;
             for(int i = 0; i < range; i++)

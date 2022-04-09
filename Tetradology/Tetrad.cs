@@ -7,7 +7,7 @@ namespace Tetradology
 {
     abstract public class Tetrad
     {
-        public const int range = 3;
+        public const int range = 4;
         public Vector[] vectors;
         public Tetrad parent;
 
@@ -20,6 +20,23 @@ namespace Tetradology
 
         public abstract Tetrad step(int i, int j);
         public abstract Tetrad step(int i);
+
+        public bool branch(Lattice lattice)
+        {
+            bool found = false;
+            for (int i = 1; i < range; i++)
+            {
+                Tetrad t2 = step(i);
+                found |= lattice.insert(t2);
+
+                for (int j = i + 1; j < range; j++)
+                {
+                    t2 = step(i, j);
+                    found |= lattice.insert(t2);
+                }
+            }
+            return found;
+        }
 
         public string name()
         {

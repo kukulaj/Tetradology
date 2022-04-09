@@ -16,7 +16,7 @@ namespace Tetradology
             tetrads = new Dictionary<string, Tetrad>();
         }
 
-        private bool insert(Tetrad t2)
+        public bool insert(Tetrad t2)
         {
             bool found = false;
             string st2 = t2.name();
@@ -55,17 +55,8 @@ namespace Tetradology
                 foreach (Tetrad t in fromTetrads)
                 {
                     string st = t.name();
-                    for (int i = 1; i < Tetrad.range; i++)
-                    {
-                        Tetrad t2 = t.step(i);
-                        found |= insert(t2);
 
-                        for (int j = i + 1; j < Tetrad.range; j++)
-                        {
-                            t2 = t.step(i, j);
-                            found |= insert(t2);
-                        }
-                    } 
+                    found |= t.branch(this);
                 }
 
                 fromTetrads = toTetrads;
