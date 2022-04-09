@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.IO;
 
 namespace Tetradology
 {
@@ -32,6 +33,21 @@ namespace Tetradology
                 }
                 result = result + "> ";
 
+            }
+            return result;
+        }
+
+        public double write(StreamWriter file, double t, double d)
+        {
+            double result = t + d;
+            for(int i = 0; i < range; i++)
+            {
+                vectors[i].write(file, t, d);
+            }
+
+            if (parent != null)
+            {
+                result = parent.write(file, t + d, d);
             }
             return result;
         }
