@@ -11,9 +11,10 @@ namespace Tetradology
 
             Lattice TL = new Lattice();
             Vector goal = new Vector();
-            goal.power[0] = 7;
-            goal.power[1] = -4;
-            goal.power[2] = -1;
+            goal.power[0] = -2;
+            goal.power[1] = 4;
+            goal.power[2] = -5;
+            goal.power[3] = 2;
 
             Tetrad hit = TL.walk(new OTetrad(goal, null));
 
@@ -31,7 +32,7 @@ namespace Tetradology
             double start = 0.0;
             for(int r = 0; r < 4; r++)
             {
-                start = hit.write(file, start, 1.0);
+                start = hit.write(file, start, 1.5);
             }
 
             file.Close();
