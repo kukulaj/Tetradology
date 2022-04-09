@@ -7,7 +7,7 @@ namespace Tetradology
 {
     abstract public class Tetrad
     {
-        public const int range = 5;
+        public const int range = 3;
         public Vector[] vectors;
         public Tetrad parent;
 

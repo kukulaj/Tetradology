@@ -11,10 +11,10 @@ namespace Tetradology
 
             Lattice TL = new Lattice();
             Vector goal = new Vector();
-            goal.power[0] = -2;
-            goal.power[1] = 4;
-            goal.power[2] = -5;
-            goal.power[3] = 2;
+            goal.power[0] = -10;
+            goal.power[1] = -16;
+            //goal.power[2] = -5;
+           // goal.power[3] = 2;
 
             Tetrad hit = TL.walk(new OTetrad(goal, null));
 
