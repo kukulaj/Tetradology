@@ -7,6 +7,8 @@ namespace Tetradology
 {
     abstract public class Tetrad
     {
+        static Random rand = new Random(35);
+
         public const int range = 4;
         public Vector[] vectors;
         public Tetrad parent;
@@ -56,15 +58,48 @@ namespace Tetradology
 
         public double write(StreamWriter file, double t, double d)
         {
+           
             double result = t + d;
-            for(int i = 0; i < range; i++)
+
+            int slices = 16;
+            double slice = d / (double)slices;
+
+
+            for (int i = 0; i < 11; i++)
             {
-                vectors[i].write(file, t, d);
+                switch (i)
+                {
+
+                    case 4:
+                    case 5:
+                    case 6:
+                    case 7:
+                    case 8:
+                    case 10:
+                    case 1:
+                    case 2:
+                        vectors[rand.Next(range)].write(file, t, slice);
+                         t += slice;
+                        break;
+                    case 3:
+                        vectors[rand.Next(range)].write(file, t, 3 * slice);
+                        t += 3 * slice;
+                        break;
+                    case 9:
+                        vectors[0].write(file, t, 3*slice);
+                        t += 3*slice;
+                        break;
+
+                    case 0:
+                        vectors[rand.Next(range)].write(file, t, 2 * slice);
+                        t += 2 * slice;
+                        break;
+                }
             }
 
             if (parent != null)
             {
-                result = parent.write(file, t + d, d);
+                result = parent.write(file, t, d);
             }
             return result;
         }
