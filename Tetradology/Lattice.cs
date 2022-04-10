@@ -11,25 +11,46 @@ namespace Tetradology
         List<Tetrad> toTetrads;
         Tetrad hit;
         string sgoal;
+
+        bool[] scale;
         public Lattice()
         {
             tetrads = new Dictionary<string, Tetrad>();
+
+            scale = new bool[19];
+            for(int i = 0; i < 8; i++)
+            {
+                scale[(10+i * 7) % 19] = true;
+            }
+
         }
 
         public bool insert(Tetrad t2)
         {
             bool found = false;
             string st2 = t2.name();
-            if (!tetrads.ContainsKey(st2))
+
+            for(int i = 0; i < Tetrad.range; i++)
             {
-                tetrads[st2] = t2;
-                toTetrads.Add(t2);
-                if (st2.Equals(sgoal))
+                if(!scale[t2.vectors[i].pitch() % scale.Length])
                 {
-                    found = true;
-                    hit = t2;
+                    return false;
                 }
             }
+
+            if (tetrads.ContainsKey(st2))
+                {
+                    return false;
+                }
+
+            tetrads[st2] = t2;
+            toTetrads.Add(t2);
+            if (st2.Equals(sgoal))
+            {
+                found = true;
+                hit = t2;
+            }
+            
             return found;
         }
 

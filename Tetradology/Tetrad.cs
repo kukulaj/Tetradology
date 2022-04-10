@@ -61,7 +61,7 @@ namespace Tetradology
            
             double result = t + d;
 
-            int slices = 16;
+            int slices = 12;
             double slice = d / (double)slices;
 
 
@@ -69,31 +69,16 @@ namespace Tetradology
             {
                 switch (i)
                 {
-
-                    case 4:
-                    case 5:
-                    case 6:
-                    case 7:
-                    case 8:
-                    case 10:
-                    case 1:
-                    case 2:
+                    default:
                         vectors[rand.Next(range)].write(file, t, slice);
                          t += slice;
                         break;
-                    case 3:
-                        vectors[rand.Next(range)].write(file, t, 3 * slice);
-                        t += 3 * slice;
-                        break;
-                    case 9:
-                        vectors[0].write(file, t, 3*slice);
-                        t += 3*slice;
+                    case 10:
+                        vectors[0].write(file, t, 2*slice);
+                        t += 2*slice;
                         break;
 
-                    case 0:
-                        vectors[rand.Next(range)].write(file, t, 2 * slice);
-                        t += 2 * slice;
-                        break;
+                    
                 }
             }
 
