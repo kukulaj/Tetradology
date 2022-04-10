@@ -58,25 +58,50 @@ namespace Tetradology
 
         public double write(StreamWriter file, double t, double d)
         {
+            if (parent == null)
+                return t;
            
             double result = t + d;
 
-            int slices = 12;
+            int slices = 2 * range;
             double slice = d / (double)slices;
 
+            int[] pitches = new int[range];
+            int[] order = new int[range];
 
-            for (int i = 0; i < 11; i++)
+            for (int i = 0; i < range; i++)
+            {
+                order[i] = i;
+                pitches[i] = vectors[i].pitch();
+            }
+
+            for(int i = 0; i< range; i++)
+            {
+                for(int j = i+1; j < range; j++)
+                {
+                    if(pitches[i]>pitches[j])
+                    {
+                        int pswap = pitches[j];
+                        pitches[j] = pitches[i];
+                        pitches[i] = pswap;
+
+                        int oswap = order[j];
+                        order[j] = order[i];
+                        order[i] = oswap;
+                    }
+                }
+            }
+
+
+            for (int i = 0; i < slices; i++)
             {
                 switch (i)
                 {
                     default:
-                        vectors[rand.Next(range)].write(file, t, slice);
+                        vectors[order[i%range]].write(file, t, slice);
                          t += slice;
                         break;
-                    case 10:
-                        vectors[0].write(file, t, 2*slice);
-                        t += 2*slice;
-                        break;
+                     
 
                     
                 }

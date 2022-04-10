@@ -30,9 +30,9 @@ namespace Tetradology
             file.WriteLine("f6 0 4096 10 1 0.3 0.3 0.3 0.3");
             file.WriteLine("f7 0 4096 10 1 0.6 0.2 0.1 0.3");
             double start = 0.0;
-            for(int r = 0; r < 12; r++)
+            for(int r = 0; r < 3; r++)
             {
-                start = hit.write(file, start, 3.6);
+                start = hit.write(file, start, 2.1);
             }
 
             file.Close();
