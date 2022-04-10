@@ -7,9 +7,9 @@ namespace Tetradology
 {
     abstract public class Tetrad
     {
-        static Random rand = new Random(35);
+        static Random rand = new Random(36);
 
-        public const int range = 4;
+        public const int range = 5;
         public Vector[] vectors;
         public Tetrad parent;
 
@@ -63,7 +63,7 @@ namespace Tetradology
            
             double result = t + d;
 
-            int slices = 2 * range;
+            int slices = 16;
             double slice = d / (double)slices;
 
             int[] pitches = new int[range];
@@ -92,18 +92,16 @@ namespace Tetradology
                 }
             }
 
+            vectors[0].write(file, t, d, -2);
 
             for (int i = 0; i < slices; i++)
             {
                 switch (i)
                 {
                     default:
-                        vectors[order[i%range]].write(file, t, slice);
+                        vectors[rand.Next(range)].write(file, t, slice);
                          t += slice;
-                        break;
-                     
-
-                    
+                        break;  
                 }
             }
 

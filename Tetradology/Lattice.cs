@@ -17,11 +17,12 @@ namespace Tetradology
         {
             tetrads = new Dictionary<string, Tetrad>();
 
-            scale = new bool[19];
-            for(int i = 0; i < 8; i++)
-            {
-                scale[(10+i * 7) % 19] = true;
-            }
+            scale = new bool[1];
+            scale[0] = true;
+            //for(int i = 0; i < 12; i++)
+           // {
+         //       scale[(13+i * 18) % scale.Length] = true;
+        //    }
 
         }
 
