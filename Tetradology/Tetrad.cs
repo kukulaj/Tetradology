@@ -7,7 +7,10 @@ namespace Tetradology
 {
     abstract public class Tetrad
     {
-        static Random rand = new Random(43);
+        static Random rand = new Random(47);
+
+        Fuzz tfuzz;
+        Fuzz lfuzz;
 
         public const int range = 4;
         public Vector[] vectors;
@@ -18,6 +21,10 @@ namespace Tetradology
             parent = p;
             vectors = new Vector[range];
             vectors[0] = v;
+
+            tfuzz = new Fuzz(rand, 0.3);
+            lfuzz = new Fuzz(rand, 0.4);
+
         }
 
         public abstract Tetrad step(int i, int j);
@@ -56,15 +63,15 @@ namespace Tetradology
             return result;
         }
 
-        public double write(StreamWriter file, double t, double d)
+        public double write(StreamWriter file, double t, double pd)
         {
             if (parent == null)
                 return t;
-           
-            double result = t + d;
+
+            double tstart = t;
 
             int slices = 16;
-            double slice = d / (double)slices;
+            double slice = pd / (double)slices;
 
             int[] pitches = new int[range];
             int[] order = new int[range];
@@ -91,25 +98,30 @@ namespace Tetradology
                     }
                 }
             }
+           
 
-            vectors[0].write(file, t, d, -2);
+           
 
             for (int i = 0; i < slices; i++)
             {
+                double d = slice * tfuzz.noise(t);
+                double l = 2500 * lfuzz.noise(t);
                 switch (i)
                 {
                     default:
-                        vectors[rand.Next(range)].write(file, t, slice);
-                         t += slice;
+                        vectors[rand.Next(range)].write(file, t, d, l);
+                         t += d;
                         break;  
                 }
             }
 
+            vectors[0].write(file, tstart, t - tstart,  2500, -2);
+
             if (parent != null)
             {
-                result = parent.write(file, t, d);
+                t = parent.write(file, t, pd);
             }
-            return result;
+            return t;
         }
     
         public void writeVector(StreamWriter file)

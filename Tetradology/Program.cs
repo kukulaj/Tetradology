@@ -11,8 +11,8 @@ namespace Tetradology
 
             Lattice TL = new Lattice();
             Vector goal = new Vector();
-            goal.power[0] = 7;
-            goal.power[1] = 6;
+            goal.power[0] = -27;
+            goal.power[1] = 18;
             goal.power[2] = 0;
             //goal.power[3] = -1;
 

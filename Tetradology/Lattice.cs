@@ -16,14 +16,14 @@ namespace Tetradology
         bool[] scale;
         public Lattice()
         {
-            rand = new Random(53);
+            rand = new Random(57);
             tetrads = new Dictionary<string, Tetrad>();
 
-            scale = new bool[31];
+            scale = new bool[19];
             scale[0] = true;
-            for(int i = 0; i < 21; i++)
+            for(int i = 0; i < 8; i++)
             {
-               scale[(10 + i * 3) % scale.Length] = true;
+               scale[(17 + i * 7) % scale.Length] = true;
           }
 
         }
