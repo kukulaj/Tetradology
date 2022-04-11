@@ -11,12 +11,17 @@ namespace Tetradology
 
             Lattice TL = new Lattice();
             Vector goal = new Vector();
-            goal.power[0] = 3;
-            goal.power[1] = -2;
-            goal.power[2] = 1;
-            goal.power[3] = -2;
+            goal.power[0] = 7;
+            goal.power[1] = 6;
+            goal.power[2] = 0;
+            //goal.power[3] = -1;
 
             Tetrad hit = TL.walk(new OTetrad(goal, null));
+
+            string vfilename = @"C:\Users\James\Documents\tuning\meantone\vectors.txt";
+            StreamWriter vfile = new StreamWriter(vfilename);
+            hit.writeVector(vfile);
+            vfile.Close();
 
             string filename = @"C:\Users\James\Documents\tuning\meantone\mtscore.txt";
             StreamWriter file = new StreamWriter(filename);

@@ -11,18 +11,20 @@ namespace Tetradology
         List<Tetrad> toTetrads;
         Tetrad hit;
         string sgoal;
+        public Random rand;
 
         bool[] scale;
         public Lattice()
         {
+            rand = new Random(53);
             tetrads = new Dictionary<string, Tetrad>();
 
-            scale = new bool[1];
+            scale = new bool[31];
             scale[0] = true;
-            //for(int i = 0; i < 12; i++)
-           // {
-         //       scale[(13+i * 18) % scale.Length] = true;
-        //    }
+            for(int i = 0; i < 21; i++)
+            {
+               scale[(10 + i * 3) % scale.Length] = true;
+          }
 
         }
 
@@ -74,8 +76,24 @@ namespace Tetradology
             {
                 d++;
                 Console.WriteLine(string.Format("step from {0} tetrads", fromTetrads.Count));
+
+                int pcnt = fromTetrads.Count;
+               Tetrad[] picks = new Tetrad[pcnt];
+                int ti = 0;
                 foreach (Tetrad t in fromTetrads)
                 {
+                    picks[ti] = t;
+                    ti++;
+                }
+
+               
+                while(pcnt > 0)
+                {
+                    int pick = rand.Next(pcnt);
+                    Tetrad t = picks[pick];
+
+                    picks[pick] = picks[pcnt - 1];
+                    pcnt--;
                     string st = t.name();
 
                     found |= t.branch(this);

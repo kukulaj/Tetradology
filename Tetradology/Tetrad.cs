@@ -7,9 +7,9 @@ namespace Tetradology
 {
     abstract public class Tetrad
     {
-        static Random rand = new Random(36);
+        static Random rand = new Random(43);
 
-        public const int range = 5;
+        public const int range = 4;
         public Vector[] vectors;
         public Tetrad parent;
 
@@ -110,6 +110,21 @@ namespace Tetradology
                 result = parent.write(file, t, d);
             }
             return result;
+        }
+    
+        public void writeVector(StreamWriter file)
+        {
+            for(int i = 0; i< range; i++)
+            {
+                vectors[i].writeVector(file);
+            }
+            file.WriteLine(" ");
+
+            if (parent != null)
+            {
+                parent.writeVector(file);
+            }
+
         }
     }
 }

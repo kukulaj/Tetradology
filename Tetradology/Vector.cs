@@ -9,8 +9,8 @@ namespace Tetradology
     public class Vector
     {
         public int[] power;
-        public const int range = 4;
-        public const int edo = 270;
+        public const int range = 3;
+        public const int edo = 31;
         public Vector()
         {
             power = new int[range];
@@ -56,6 +56,19 @@ namespace Tetradology
             double freq = 2.0 * Math.Exp(Math.Log(2) * ((double) p) / ((double)edo));
 
             file.WriteLine(string.Format("i3  {0} {1} {2} 2500", t, d, freq));
+        }
+
+        public void writeVector(StreamWriter file)
+        {
+            int p = pitch();
+            
+            file.Write(string.Format("({0}):|", p));
+
+            for(int i = 0; i < range; i++)
+            {
+                file.Write(string.Format("{0} ", power[i]));
+            }
+            file.Write(">; ");
         }
     }
 }
