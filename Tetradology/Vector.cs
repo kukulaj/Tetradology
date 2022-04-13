@@ -26,6 +26,24 @@ namespace Tetradology
             }
         }
 
+        public bool equals(Vector v2)
+        {
+            bool same = true;
+            for(int i = 0; i<range; i++)
+            {
+                same &= (power[i] == v2.power[i]);
+            }
+            return same;
+        }
+
+        public void subtract(Vector v2)
+        {
+            for(int i = 0;  i<range; i++)
+            {
+                power[i] -= v2.power[i];
+            }
+        }
+
         public int pitch(Random rand)
         {
             double[] primes = new double[] { 3, 5, 7, 11, 13, 17 };

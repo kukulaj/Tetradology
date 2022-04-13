@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Diagnostics;
 
 namespace Tetradology
 {
@@ -33,6 +34,7 @@ namespace Tetradology
             bool found = false;
             string st2 = t2.name();
 
+            /*
             for(int i = 0; i < Tetrad.range; i++)
             {
                 if(!scale[t2.vectors[i].pitch(null) % scale.Length])
@@ -40,9 +42,11 @@ namespace Tetradology
                     return false;
                 }
             }
+            */
 
             if (tetrads.ContainsKey(st2))
                 {
+                Debug.Assert(st2.Equals(tetrads[st2].name()));
                     return false;
                 }
 
@@ -60,6 +64,7 @@ namespace Tetradology
         public Tetrad walk(Tetrad start, Tetrad tgoal)
         {
             sgoal = tgoal.name();
+            string sstart = start.name();
 
             fromTetrads = new List<Tetrad>();
             toTetrads = new List<Tetrad>();
@@ -73,7 +78,7 @@ namespace Tetradology
             bool found = false;
             int extra = -1;
             int d = 0;
-            while(!found)
+            while(!found && extra < 4)
             {
                 found = false;
                 d++;

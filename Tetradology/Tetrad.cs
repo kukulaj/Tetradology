@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.IO;
+using System.Diagnostics;
 
 namespace Tetradology
 {
@@ -20,7 +21,7 @@ namespace Tetradology
         {
             parent = p;
             vectors = new Vector[range];
-            vectors[0] = v;
+            vectors[0] = new Vector(v);
 
             tfuzz = new Fuzz(rand, 0.3, 0.015);
             lfuzz = new Fuzz(rand, 0.4, 0.1);
@@ -30,17 +31,56 @@ namespace Tetradology
         public abstract Tetrad step(int i, int j);
         public abstract Tetrad step(int i);
 
+        public bool equals(Tetrad t2)
+        {
+            bool same = true;
+            for(int i = 0; i < range; i++)
+            {
+                same &= vectors[i].equals(t2.vectors[i]);
+            }
+
+            return same;
+        }
+
+        public void subtract(Tetrad t2)
+        {
+            for(int i = 0; i<range; i++)
+            {
+                vectors[i].subtract(t2.vectors[i]);
+            }
+        }
+
+        public bool check(Tetrad t)
+        {
+            bool found = false;
+            for (int i = 1; i < range; i++)
+            {
+                Tetrad t2 = step(i);
+                found |= t.equals(t2);
+
+                for (int j = i + 1; j < range; j++)
+                {
+                    t2 = step(i, j);
+                    found |= t.equals(t2);
+                }
+            }
+            return found;
+
+        }
+
         public bool branch(Lattice lattice)
         {
             bool found = false;
             for (int i = 1; i < range; i++)
             {
                 Tetrad t2 = step(i);
+               
                 found |= lattice.insert(t2);
 
                 for (int j = i + 1; j < range; j++)
                 {
                     t2 = step(i, j);
+                 
                     found |= lattice.insert(t2);
                 }
             }

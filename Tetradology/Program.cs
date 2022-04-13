@@ -8,7 +8,7 @@ namespace Tetradology
         static void Main(string[] args)
         {
             Console.WriteLine("Hello World!");
-            Random rand = new Random(101);
+            Random rand = new Random(102);
 
             Lattice TL = new Lattice(rand);
             Vector goal = new Vector();
@@ -17,8 +17,9 @@ namespace Tetradology
             goal.power[2] = 1;
             //goal.power[3] = -1;
 
-            
-            Tetrad hit = TL.walk(new OTetrad(new Vector(), null), new OTetrad(goal, null));
+
+            Tetrad comma = new OTetrad(goal, null);
+            Tetrad hit = TL.walk(new OTetrad(new Vector(), null), comma);
 
             string vfilename = @"C:\Users\James\Documents\tuning\meantone\vectors.txt";
             StreamWriter vfile = new StreamWriter(vfilename);
@@ -37,13 +38,14 @@ namespace Tetradology
             file.WriteLine("f6 0 4096 10 1 0.3 0.3 0.3 0.3");
             file.WriteLine("f7 0 4096 10 1 0.6 0.2 0.1 0.3");
 
-            Loop loop = new Loop(rand, vfile, hit);
-            for (int si = 0; si < 8; si++)
+            Loop loop = new Loop(rand, vfile, hit, comma);
+            for (int si = 0; si < 20; si++)
             {
                 loop.write(file, 50 + rand.Next(10));
                 loop.swap(vfile);
             }
 
+            loop.writeVectors(vfile);
             file.Close();
             vfile.Close();
             Console.WriteLine("Goodbye World!");

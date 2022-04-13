@@ -13,10 +13,11 @@ namespace Tetradology
         int spot;
         double t;
         double d;
-
-        public Loop(Random pr, StreamWriter file, Tetrad init)
+        Tetrad comma;
+        public Loop(Random pr, StreamWriter file, Tetrad init, Tetrad pc)
         {
             rand = pr;
+            comma = pc;
             int size = trace(init);
 
             tetrads = new Tetrad[size];
@@ -36,6 +37,17 @@ namespace Tetradology
             t = 0.0;
             d = 4.0;
         }
+
+        public void writeVectors(StreamWriter file)
+        {
+            file.WriteLine("loop:");
+            for(int i = 0; i < tetrads.Length; i++)
+            {
+                tetrads[i].writeVector(file);
+            }
+            file.WriteLine(" ");
+        }
+
 
         public int trace(Tetrad start)
         {
@@ -64,8 +76,17 @@ namespace Tetradology
         public void swap(StreamWriter file)
         {
             int gap = 5;
-            int starti = (-1 + spot + tetrads.Length / 2) % tetrads.Length;
-            int endi = (starti + gap) % tetrads.Length;
+            int starti = 0;
+            if (spot > tetrads.Length / 2)
+            {
+                starti = rand.Next(spot - gap - 1);
+            }
+            else 
+            {
+                starti = spot +  1 + rand.Next(tetrads.Length - spot - gap - 2);
+            }
+           
+            int endi = starti + gap;
 
             file.WriteLine("from");
             int wi = starti;
@@ -83,12 +104,26 @@ namespace Tetradology
 
             Tetrad start = tetrads[starti];
             Tetrad endt = tetrads[endi];
-
-            Lattice sl = new Lattice(rand);
             endt.parent = null;
+            start.parent = null;
+
+            for(int ti = starti; ti< endi; ti++)
+            {
+                if(!tetrads[ti].check(tetrads[ti+1]))
+                {
+                    tetrads[ti+1].subtract(comma);
+                    ;
+                }
+            }
+
+            endt.parent = null;
+            start.parent = null;
+            Lattice sl = new Lattice(rand);      
             Tetrad hit = sl.walk(endt, start);
             int insert = trace(hit);
 
+           
+            
             Tetrad[] replacement = new Tetrad[tetrads.Length - gap + insert];
             Console.WriteLine(string.Format("new loop is {0} long", replacement.Length));
 
