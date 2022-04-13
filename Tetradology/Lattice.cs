@@ -14,17 +14,17 @@ namespace Tetradology
         public Random rand;
 
         bool[] scale;
-        public Lattice()
+        public Lattice(Random pr)
         {
-            rand = new Random(57);
+            rand = pr ;
             tetrads = new Dictionary<string, Tetrad>();
 
-            scale = new bool[19];
+            scale = new bool[1];
             scale[0] = true;
-            for(int i = 0; i < 8; i++)
-            {
-               scale[(17 + i * 7) % scale.Length] = true;
-          }
+           // for(int i = 0; i < 47; i++)
+           // {
+            //   scale[(100 + i * 11) % scale.Length] = true;
+          //}
 
         }
 
@@ -35,7 +35,7 @@ namespace Tetradology
 
             for(int i = 0; i < Tetrad.range; i++)
             {
-                if(!scale[t2.vectors[i].pitch() % scale.Length])
+                if(!scale[t2.vectors[i].pitch(null) % scale.Length])
                 {
                     return false;
                 }
@@ -57,23 +57,25 @@ namespace Tetradology
             return found;
         }
 
-        public Tetrad walk(Tetrad tgoal)
+        public Tetrad walk(Tetrad start, Tetrad tgoal)
         {
             sgoal = tgoal.name();
 
             fromTetrads = new List<Tetrad>();
             toTetrads = new List<Tetrad>();
 
-            Tetrad start = new OTetrad(new Vector(), null);
+          
             fromTetrads.Add(start);
             tetrads[start.name()] = start;
 
             hit = null;
 
             bool found = false;
+            int extra = -1;
             int d = 0;
             while(!found)
             {
+                found = false;
                 d++;
                 Console.WriteLine(string.Format("step from {0} tetrads", fromTetrads.Count));
 
@@ -85,7 +87,6 @@ namespace Tetradology
                     picks[ti] = t;
                     ti++;
                 }
-
                
                 while(pcnt > 0)
                 {
@@ -97,6 +98,11 @@ namespace Tetradology
                     string st = t.name();
 
                     found |= t.branch(this);
+                }
+
+                if(found)
+                {
+                    extra++;
                 }
 
                 fromTetrads = toTetrads;

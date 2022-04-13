@@ -8,6 +8,7 @@ namespace Tetradology
 {
     public class Vector
     {
+        static int offset = 0;
         public int[] power;
         public const int range = 3;
         public const int edo = 171;
@@ -25,7 +26,7 @@ namespace Tetradology
             }
         }
 
-        public int pitch()
+        public int pitch(Random rand)
         {
             double[] primes = new double[] { 3, 5, 7, 11, 13, 17 };
            
@@ -38,7 +39,33 @@ namespace Tetradology
 
 
             p = p % edo;
-            if (p < 0)
+
+            int bottom = 0;
+
+            if(rand != null)
+            {
+                
+                if (rand.NextDouble() < 0.1)
+                { 
+                    if(rand.Next(2)==0)
+                    { 
+                        if(offset > 0)
+                        {
+                            offset--;
+                        }
+                    }
+                    else 
+                    {
+                        if (offset < edo)
+                        {
+                            offset++;
+                        }
+                    }
+                }
+                bottom = offset;
+            }
+
+            while (p < bottom)
             {
                 p += edo;
             }
@@ -51,7 +78,11 @@ namespace Tetradology
         }
         public void write(StreamWriter file, double t, double d, double l, int shift)
         {
-            int p = pitch();
+            write(file, t, d, l, shift, null);
+        }
+        public void write(StreamWriter file, double t, double d, double l, int shift, Random rand)
+        {
+            int p = pitch(rand);
             p += shift * edo;
             double freq = 2.0 * Math.Exp(Math.Log(2) * ((double) p) / ((double)edo));
 
@@ -60,7 +91,7 @@ namespace Tetradology
 
         public void writeVector(StreamWriter file)
         {
-            int p = pitch();
+            int p = pitch(null);
             
             file.Write(string.Format("({0}):|", p));
 

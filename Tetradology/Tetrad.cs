@@ -7,7 +7,7 @@ namespace Tetradology
 {
     abstract public class Tetrad
     {
-        static Random rand = new Random(47);
+        static Random rand = new Random(51);
 
         Fuzz tfuzz;
         Fuzz lfuzz;
@@ -22,8 +22,8 @@ namespace Tetradology
             vectors = new Vector[range];
             vectors[0] = v;
 
-            tfuzz = new Fuzz(rand, 0.3);
-            lfuzz = new Fuzz(rand, 0.4);
+            tfuzz = new Fuzz(rand, 0.3, 0.015);
+            lfuzz = new Fuzz(rand, 0.4, 0.1);
 
         }
 
@@ -79,7 +79,7 @@ namespace Tetradology
             for (int i = 0; i < range; i++)
             {
                 order[i] = i;
-                pitches[i] = vectors[i].pitch();
+                pitches[i] = vectors[i].pitch(null);
             }
 
             for(int i = 0; i< range; i++)
@@ -104,12 +104,17 @@ namespace Tetradology
 
             for (int i = 0; i < slices; i++)
             {
+                Random r2 = null;
                 double d = slice * tfuzz.noise(t);
-                double l = 2500 * lfuzz.noise(t);
+                double l = 2500 * lfuzz.noise(3 * t);
                 switch (i)
                 {
                     default:
-                        vectors[rand.Next(range)].write(file, t, d, l);
+                        if(i==0)
+                        {
+                            r2 = rand;
+                        }
+                        vectors[rand.Next(range)].write(file, t, d, l,0, r2);
                          t += d;
                         break;  
                 }
@@ -117,10 +122,7 @@ namespace Tetradology
 
             vectors[0].write(file, tstart, t - tstart,  2500, -2);
 
-            if (parent != null)
-            {
-                t = parent.write(file, t, pd);
-            }
+            
             return t;
         }
     
@@ -132,10 +134,7 @@ namespace Tetradology
             }
             file.WriteLine(" ");
 
-            if (parent != null)
-            {
-                parent.writeVector(file);
-            }
+           
 
         }
     }

@@ -9,11 +9,13 @@ namespace Tetradology
         const int fcnt = 20;
         double[] phase;
         double power;
+        double amplitude;
         Random rand;
-        public Fuzz(Random pr, double ppower)
+        public Fuzz(Random pr, double ppower, double pamp)
         {
             rand = pr;
             power = ppower;
+            amplitude = pamp;
             phase = new double[fcnt];
             {
                 for(int i = 0; i < fcnt; i++)
@@ -27,7 +29,7 @@ namespace Tetradology
         {
             double result = 1.0;
 
-            double factor = 0.02;
+            double factor = amplitude;
             double wlength = 1.0;
             for(int i = 0; i < fcnt; i++)
             {
