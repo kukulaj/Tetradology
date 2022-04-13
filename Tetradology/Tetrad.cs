@@ -42,13 +42,8 @@ namespace Tetradology
             return same;
         }
 
-        public void subtract(Tetrad t2)
-        {
-            for(int i = 0; i<range; i++)
-            {
-                vectors[i].subtract(t2.vectors[i]);
-            }
-        }
+        abstract public Tetrad subtract(Tetrad t2);
+        
 
         public bool check(Tetrad t)
         {

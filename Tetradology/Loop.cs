@@ -101,20 +101,19 @@ namespace Tetradology
                 wi = (wi + 1) % tetrads.Length;
             }
 
-
-            Tetrad start = tetrads[starti];
-            Tetrad endt = tetrads[endi];
-            endt.parent = null;
-            start.parent = null;
-
             for(int ti = starti; ti< endi; ti++)
             {
                 if(!tetrads[ti].check(tetrads[ti+1]))
                 {
-                    tetrads[ti+1].subtract(comma);
-                    ;
+                    Tetrad adjust = tetrads[ti + 1].subtract(comma);
+                    tetrads[ti + 1] = adjust; 
+                    Debug.Assert(tetrads[ti].check(tetrads[ti + 1]));
                 }
             }
+            Tetrad start = tetrads[starti];
+            Tetrad endt = tetrads[endi];
+            endt.parent = null;
+            start.parent = null;
 
             endt.parent = null;
             start.parent = null;

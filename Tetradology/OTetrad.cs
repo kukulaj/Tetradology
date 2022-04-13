@@ -14,6 +14,13 @@ namespace Tetradology
                 vectors[i].power[i - 1]++;
             }
         }
+
+        public override Tetrad subtract(Tetrad t2)
+        {
+            Vector root = new Vector(vectors[0]);
+            root.subtract(t2.vectors[0]);
+            return new OTetrad(root, parent);
+        }
         public override Tetrad step(int i, int j)
         {
             Vector root = new Vector(vectors[i]);
