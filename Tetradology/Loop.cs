@@ -14,22 +14,18 @@ namespace Tetradology
         double t;
         double d;
         Tetrad comma;
-        public Loop(Random pr, StreamWriter file, Tetrad init, Tetrad pc)
+        public Loop(Random pr, StreamWriter file, Tetrad[]path, Tetrad pc)
         {
             rand = pr;
             comma = pc;
-            int size = trace(init);
+            int size = path.Length-1;
 
             tetrads = new Tetrad[size];
             
-            Tetrad scan = init;
-            int ti = 0;
-            while (scan.parent != null)
+            for(int ti = 0; ti<size; ti++)
             {
-                scan.writeVector(file);
-                tetrads[ti] = scan;
-                ti++;
-                scan = scan.parent;
+                path[ti+1].writeVector(file);
+                tetrads[ti] = path[ti+1];
             }
             file.WriteLine(" ");
 
@@ -48,20 +44,6 @@ namespace Tetradology
             file.WriteLine(" ");
         }
 
-
-        public int trace(Tetrad start)
-        {
-            int size = 0;
-            Tetrad scan = start;
-            while (scan.parent != null)
-            {
-                size++;
-                scan = scan.parent;
-            }
-            return size;
-        }
-
-
         public void write(StreamWriter file, int cnt)
         {
             for(int ci=0; ci < cnt; ci++)
@@ -75,7 +57,7 @@ namespace Tetradology
 
         public void swap(StreamWriter file)
         {
-            int gap = 5;
+            int gap = 7;
             int starti = 0;
             if (spot > tetrads.Length / 2)
             {
@@ -101,29 +83,27 @@ namespace Tetradology
                 wi = (wi + 1) % tetrads.Length;
             }
 
+            bool leap = false;
             for(int ti = starti; ti< endi; ti++)
             {
                 if(!tetrads[ti].check(tetrads[ti+1]))
                 {
-                    Tetrad adjust = tetrads[ti + 1].subtract(comma);
-                    tetrads[ti + 1] = adjust; 
-                    Debug.Assert(tetrads[ti].check(tetrads[ti + 1]));
+                    leap = true;
                 }
             }
             Tetrad start = tetrads[starti];
             Tetrad endt = tetrads[endi];
-            endt.parent = null;
-            start.parent = null;
-
-            endt.parent = null;
-            start.parent = null;
-            Lattice sl = new Lattice(rand);      
-            Tetrad hit = sl.walk(endt, start);
-            int insert = trace(hit);
-
-           
+            if(leap)
+            {
+                start = start.subtract(comma);
+            }
             
-            Tetrad[] replacement = new Tetrad[tetrads.Length - gap + insert];
+            Lattice sl = new Lattice(rand);      
+            Tetrad[] path = sl.walk(start, endt);
+            int insert = path.Length;
+  
+            
+            Tetrad[] replacement = new Tetrad[tetrads.Length - gap + insert-1];
             Console.WriteLine(string.Format("new loop is {0} long", replacement.Length));
 
             int oldi = spot;
@@ -137,12 +117,11 @@ namespace Tetradology
             }
 
             file.WriteLine("to:");
-            while(hit != null)
+            for(int pi = 0; pi< path.Length; pi++)
             {
-                hit.writeVector(file);
-                replacement[newi] = hit;
+                path[pi].writeVector(file);
+                replacement[newi] = path[pi];
                 newi++;
-                hit = hit.parent;
             }
 
             oldi = (endi + 1) % tetrads.Length;

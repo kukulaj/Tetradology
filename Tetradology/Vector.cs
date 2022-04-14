@@ -10,8 +10,8 @@ namespace Tetradology
     {
         static int offset = 0;
         public int[] power;
-        public const int range = 3;
-        public const int edo = 171;
+        public const int range = 4;
+        public const int edo = 270;
         public Vector()
         {
             power = new int[range];

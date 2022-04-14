@@ -13,13 +13,14 @@ namespace Tetradology
         Fuzz tfuzz;
         Fuzz lfuzz;
 
-        public const int range = 4;
+        public const int range = 5;
         public Vector[] vectors;
-        public Tetrad parent;
+        public List<Tetrad> parent;
+        public int distance;
 
-        public Tetrad(Vector v, Tetrad p)
+        public Tetrad(Vector v)
         {
-            parent = p;
+            parent = new List<Tetrad>();
             vectors = new Vector[range];
             vectors[0] = new Vector(v);
 

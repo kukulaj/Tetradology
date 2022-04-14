@@ -6,7 +6,7 @@ namespace Tetradology
 {
     public class UTetrad : Tetrad
     {
-        public UTetrad(Vector v, Tetrad p) : base(v, p)
+        public UTetrad(Vector v) : base(v)
         {
             for (int i = 1; i < range; i++)
             {
@@ -19,21 +19,21 @@ namespace Tetradology
         {
             Vector root = new Vector(vectors[0]);
             root.subtract(t2.vectors[0]);
-            return new UTetrad(root, parent);
+            return new UTetrad(root);
         }
 
         public override Tetrad step(int i)
         {
             Vector root = new Vector(vectors[i]);
              
-            return new OTetrad(root, this);
+            return new OTetrad(root);
         }
 
         public override Tetrad step(int i, int j)
         {
             Vector root = new Vector(vectors[i]);
             root.power[j - 1] = vectors[j].power[j - 1];
-            return new OTetrad(root, this);
+            return new OTetrad(root);
         }
     }
 }

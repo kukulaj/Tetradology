@@ -13,6 +13,8 @@ namespace Tetradology
         Tetrad hit;
         string sgoal;
         public Random rand;
+        Tetrad tfrom;
+        int d;
 
         bool[] scale;
         public Lattice(Random pr)
@@ -43,25 +45,30 @@ namespace Tetradology
                 }
             }
             */
-
+            Tetrad t1 = t2;
             if (tetrads.ContainsKey(st2))
-                {
-                Debug.Assert(st2.Equals(tetrads[st2].name()));
-                    return false;
-                }
-
-            tetrads[st2] = t2;
-            toTetrads.Add(t2);
-            if (st2.Equals(sgoal))
             {
-                found = true;
-                hit = t2;
+                t1 = tetrads[st2];
+            }
+            else
+            {
+                tetrads[st2] = t2;
+                toTetrads.Add(t2);
+                t2.distance = d;
+            }
+
+            t1.parent.Add(tfrom);
+            if (st2.Equals(sgoal))
+            { 
+                Console.WriteLine(string.Format("hit at {0}", d));
+               found = true;
+                hit = t1;
             }
             
             return found;
         }
 
-        public Tetrad walk(Tetrad start, Tetrad tgoal)
+        public Tetrad[] walk(Tetrad start, Tetrad tgoal)
         {
             sgoal = tgoal.name();
             string sstart = start.name();
@@ -69,16 +76,17 @@ namespace Tetradology
             fromTetrads = new List<Tetrad>();
             toTetrads = new List<Tetrad>();
 
-          
+            d = 0;
             fromTetrads.Add(start);
+            start.distance = d;
             tetrads[start.name()] = start;
 
             hit = null;
 
             bool found = false;
-            int extra = -1;
-            int d = 0;
-            while(!found && extra < 4)
+            int extra = 0;
+          
+            while(!found || extra < 2)
             {
                 found = false;
                 d++;
@@ -96,13 +104,13 @@ namespace Tetradology
                 while(pcnt > 0)
                 {
                     int pick = rand.Next(pcnt);
-                    Tetrad t = picks[pick];
+                    tfrom = picks[pick];
 
                     picks[pick] = picks[pcnt - 1];
                     pcnt--;
-                    string st = t.name();
+                    string st = tfrom.name();
 
-                    found |= t.branch(this);
+                    found |= tfrom.branch(this);
                 }
 
                 if(found)
@@ -114,9 +122,29 @@ namespace Tetradology
                 toTetrads = new List<Tetrad>();
                 
             }
-            Console.WriteLine(string.Format("hit at {0}", d));
+            Tetrad[] path = new Tetrad[d + 1];
 
-            return hit;
+            Tetrad scan = hit;
+            while(d >= 0)
+            {
+                path[d] = scan;
+                d--;
+
+                if(d >= 0)
+                {
+                    foreach(Tetrad cp in scan.parent)
+                    { 
+                        if(cp.distance == d)
+                        {
+                            scan = cp;
+                            break;
+                        }
+                    }
+                }
+            }
+
+
+            return path;
         }
     }
 }
