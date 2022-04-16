@@ -8,7 +8,7 @@ namespace Tetradology
         static void Main(string[] args)
         {
             Console.WriteLine("Hello World!");
-            Random rand = new Random(109);
+            Random rand = new Random(110);
 
             Lattice TL = new Lattice(rand);
             Vector goal = new Vector();
@@ -39,7 +39,7 @@ namespace Tetradology
             file.WriteLine("f7 0 4096 10 1 0.6 0.2 0.1 0.3");
 
             Loop loop = new Loop(rand, vfile, path, comma);
-            for (int si = 0; si < 40; si++)
+            for (int si = 0; si < 50; si++)
             {
                 loop.write(file, 6 + rand.Next(6));
                 loop.swap(vfile);

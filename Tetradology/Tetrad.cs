@@ -9,6 +9,7 @@ namespace Tetradology
     abstract public class Tetrad
     {
         static Random rand = new Random(53);
+        static int[] permutation = new int[] {0, 1, 2, 3 };
 
         Fuzz tfuzz;
         Fuzz lfuzz;
@@ -143,14 +144,26 @@ namespace Tetradology
                 Random r2 = null;
                 double d = slice * tfuzz.noise(t);
                 double l = 2500 * lfuzz.noise(3 * t);
+
+                if (i == 8)
+                {
+                    int p1 = rand.Next(permutation.Length);
+                    int p2 = (p1 + 1+rand.Next(permutation.Length - 1)) % permutation.Length;
+                    int ps = permutation[p1];
+                    permutation[p1] = permutation[p2];
+                    permutation[p2] = ps;
+                }
+
+
                 switch (i)
                 {
                     default:
                         if(i==0)
                         {
+                            
                             r2 = rand;
                         }
-                        vectors[rand.Next(range)].write(file, t, d, l,0, r2);
+                        vectors[order[permutation[i%permutation.Length]]].write(file, t, d, l,0, r2);
                          t += d;
                         break;  
                 }
