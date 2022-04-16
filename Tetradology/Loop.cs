@@ -57,18 +57,11 @@ namespace Tetradology
 
         public void swap(StreamWriter file)
         {
-            int gap = 7;
+            int gap =3;
             int starti = 0;
-            if (spot > tetrads.Length / 2)
-            {
-                starti = rand.Next(spot - gap - 1);
-            }
-            else 
-            {
-                starti = spot +  1 + rand.Next(tetrads.Length - spot - gap - 2);
-            }
-           
-            int endi = starti + gap;
+            
+            starti = (spot + rand.Next(tetrads.Length - gap - 2)) % tetrads.Length;
+            int endi = (starti + gap) % tetrads.Length;
 
             file.WriteLine("from");
             int wi = starti;
@@ -84,11 +77,22 @@ namespace Tetradology
             }
 
             bool leap = false;
-            for(int ti = starti; ti< endi; ti++)
+            int ti = starti;
+            bool ldone = false;
+            while(!ldone)
             {
-                if(!tetrads[ti].check(tetrads[ti+1]))
+                int nexti = (ti + 1) % tetrads.Length;
+                if(!tetrads[ti].check(tetrads[nexti]))
                 {
                     leap = true;
+                }
+                if(nexti == endi)
+                {
+                    ldone = true;
+                }
+                else 
+                {
+                    ti = nexti;
                 }
             }
             Tetrad start = tetrads[starti];
@@ -101,6 +105,7 @@ namespace Tetradology
             Lattice sl = new Lattice(rand);      
             Tetrad[] path = sl.walk(start, endt);
             int insert = path.Length;
+            Debug.Assert(insert == gap+1);
   
             
             Tetrad[] replacement = new Tetrad[tetrads.Length - gap + insert-1];

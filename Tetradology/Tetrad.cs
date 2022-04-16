@@ -8,12 +8,12 @@ namespace Tetradology
 {
     abstract public class Tetrad
     {
-        static Random rand = new Random(51);
+        static Random rand = new Random(53);
 
         Fuzz tfuzz;
         Fuzz lfuzz;
 
-        public const int range = 5;
+        public const int range = 4;
         public Vector[] vectors;
         public List<Tetrad> parent;
         public int distance;

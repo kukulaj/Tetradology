@@ -86,7 +86,7 @@ namespace Tetradology
             bool found = false;
             int extra = 0;
           
-            while(!found || extra < 2)
+            while(!found /*|| extra < 2*/)
             {
                 found = false;
                 d++;
