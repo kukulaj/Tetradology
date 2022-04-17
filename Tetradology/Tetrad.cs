@@ -8,7 +8,7 @@ namespace Tetradology
 {
     abstract public class Tetrad
     {
-        static Random rand = new Random(53);
+        static Random rand = new Random(77);
         static int[] permutation = new int[] {0, 1, 2, 3 };
 
         Fuzz tfuzz;
@@ -107,7 +107,7 @@ namespace Tetradology
 
             double tstart = t;
 
-            int slices = 16;
+            int slices = 4 * range ;
             double slice = pd / (double)slices;
 
             int[] pitches = new int[range];
@@ -145,10 +145,10 @@ namespace Tetradology
                 double d = slice * tfuzz.noise(t);
                 double l = 2500 * lfuzz.noise(3 * t);
 
-                if (i == 8)
+                if (i % range == 0)
                 {
                     int p1 = rand.Next(permutation.Length);
-                    int p2 = (p1 + 1+rand.Next(permutation.Length - 1)) % permutation.Length;
+                    int p2 = (p1 + 1 + rand.Next(permutation.Length - 1)) % permutation.Length;
                     int ps = permutation[p1];
                     permutation[p1] = permutation[p2];
                     permutation[p2] = ps;

@@ -57,7 +57,7 @@ namespace Tetradology
 
         public void swap(StreamWriter file)
         {
-            int gap =3;
+            int gap =7;
             int starti = 0;
             
             starti = (spot + rand.Next(tetrads.Length - gap - 2)) % tetrads.Length;
