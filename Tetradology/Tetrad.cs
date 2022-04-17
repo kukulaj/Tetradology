@@ -8,7 +8,7 @@ namespace Tetradology
 {
     abstract public class Tetrad
     {
-        static Random rand = new Random(77);
+        static Random rand = new Random(99);
         static int[] permutation = new int[] {0, 1, 2, 3 };
 
         Fuzz tfuzz;
