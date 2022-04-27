@@ -31,7 +31,7 @@ namespace Tetradology
 
             spot = 0;
             t = 0.0;
-            d = 4.0;
+            d = 0.6;
         }
 
         public void writeVectors(StreamWriter file)

@@ -10,14 +10,18 @@ namespace Tetradology
     {
         static int offset = 0;
         public int[] power;
-        public const int range = 3;
-        public const int edo = 441;
-        public Vector()
+        public int range;
+        Tuning tuning;
+        public Vector(Tuning t)
         {
+            tuning = t;
+            range = tuning.bases.Length;
             power = new int[range];
         }
         public Vector(Vector v)
         {
+            tuning = v.tuning;
+            range = tuning.bases.Length;
             power = new int[range];
 
             for(int i = 0; i < range; i++)
@@ -46,20 +50,21 @@ namespace Tetradology
 
         public int pitch(Random rand)
         {
-            double[] primes = new double[] { 3, 5, 7, 11, 13, 17 };
-           
+             
 
             int p = 0;
             for (int i = 0; i < range; i++)
             {
-                p += power[i] * (int)(0.5 + ((double)edo) * Math.Log(primes[i]) / Math.Log(2));
+                p += power[i] * 
+                    (int)(0.5 + ((double)tuning.edo) * Math.Log(tuning.bases[i]) / Math.Log(2)) ;
             }
 
 
-            p = p % edo;
+            p = p % tuning.edo;
 
             int bottom = 0;
 
+            /*
             if(rand != null)
             {
                 
@@ -74,7 +79,7 @@ namespace Tetradology
                     }
                     else 
                     {
-                        if (offset < edo)
+                        if (offset < tuning.edo)
                         {
                             offset++;
                         }
@@ -82,10 +87,11 @@ namespace Tetradology
                 }
                 bottom = offset;
             }
+            */
 
             while (p < bottom)
             {
-                p += edo;
+                p += tuning.edo;
             }
             return p;
         }
@@ -101,8 +107,8 @@ namespace Tetradology
         public void write(StreamWriter file, double t, double d, double l, int shift, Random rand)
         {
             int p = pitch(rand);
-            p += shift * edo;
-            double freq = 2.0 * Math.Exp(Math.Log(2) * ((double) p) / ((double)edo));
+            p += shift * tuning.edo;
+            double freq = 2.0 * Math.Exp(Math.Log(2) * ((double) p) / ((double)tuning.edo));
 
             file.WriteLine(string.Format("i3  {0} {1} {2} {3}", t, d, freq, l));
         }

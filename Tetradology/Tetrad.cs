@@ -8,19 +8,20 @@ namespace Tetradology
 {
     abstract public class Tetrad
     {
-        static Random rand = new Random(99);
-        static int[] permutation = new int[] {0, 1, 2, 3 };
+        static Random rand = new Random(101);
+        static int[] permutation = new int[] {0, 1, 2 };
 
         Fuzz tfuzz;
         Fuzz lfuzz;
 
-        public const int range = 4;
+        public int range;
         public Vector[] vectors;
         public List<Tetrad> parent;
         public int distance;
 
         public Tetrad(Vector v)
         {
+            range = v.range + 1;
             parent = new List<Tetrad>();
             vectors = new Vector[range];
             vectors[0] = new Vector(v);
@@ -90,7 +91,7 @@ namespace Tetradology
             for(int i = 0; i< range; i++)
             {
                 result = result + "|";
-                for(int j = 0; j < Vector.range; j++)
+                for(int j = 0; j < vectors[i].range; j++)
                 {
                     result = result + string.Format("{0} ", vectors[i].power[j]);
                 }
@@ -102,11 +103,11 @@ namespace Tetradology
 
         public double write(StreamWriter file, double t, double pd)
         {
-            if (parent == null)
-                return t;
+            
 
             double tstart = t;
 
+            /*
             int slices = 4 * range ;
             double slice = pd / (double)slices;
 
@@ -168,11 +169,19 @@ namespace Tetradology
                         break;  
                 }
             }
-
-            vectors[0].write(file, tstart, t - tstart,  2500, -2);
+             */
 
             
-            return t;
+            for(int i = 0; i < range; i++)
+            {
+                vectors[i].write(file, tstart, pd * 0.95, 1200, i/3);
+            }
+
+
+            vectors[0].write(file, tstart, pd * 0.95,  1200, -2);
+
+           
+            return tstart + pd;
         }
     
         public void writeVector(StreamWriter file)

@@ -22,13 +22,13 @@ namespace Tetradology
             rand = pr ;
             tetrads = new Dictionary<string, Tetrad>();
 
-            scale = new bool[63];
-           // scale[0] = true;
-           for(int i = 0; i < 20; i++)
-            {
-               scale[(57 + i * 22) % scale.Length] = true;
-          }
-
+            scale = new bool[1];
+           scale[0] = true;
+         //  for(int i = 0; i < 19; i++)
+        //   {
+         //    scale[(i * 14) % scale.Length] = true;
+        // }
+          
         }
 
         public bool insert(Tetrad t2)
@@ -37,7 +37,7 @@ namespace Tetradology
             string st2 = t2.name();
 
             
-            for(int i = 0; i < Tetrad.range; i++)
+            for(int i = 0; i < t2.range; i++)
             {
                 if(!scale[t2.vectors[i].pitch(null) % scale.Length])
                 {
