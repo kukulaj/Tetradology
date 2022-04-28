@@ -101,6 +101,8 @@ namespace Tetradology
             return result;
         }
 
+        abstract public int shift(int i);
+
         public double write(StreamWriter file, double t, double pd)
         {
             
@@ -110,9 +112,11 @@ namespace Tetradology
             /*
             int slices = 4 * range ;
             double slice = pd / (double)slices;
+            */
 
             int[] pitches = new int[range];
             int[] order = new int[range];
+            
 
             for (int i = 0; i < range; i++)
             {
@@ -138,7 +142,7 @@ namespace Tetradology
             }
            
 
-           
+           /*
 
             for (int i = 0; i < slices; i++)
             {
@@ -174,7 +178,7 @@ namespace Tetradology
             
             for(int i = 0; i < range; i++)
             {
-                vectors[i].write(file, tstart, pd * 0.95, 1200, i/3);
+                vectors[order[i]].write(file, tstart, pd * 0.95, 1200, i%2);
             }
 
 

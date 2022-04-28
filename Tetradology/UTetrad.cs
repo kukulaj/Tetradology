@@ -15,6 +15,10 @@ namespace Tetradology
             }
         }
 
+        public override int shift(int i)
+        {
+            return i/3;
+        }
         public override Tetrad subtract(Tetrad t2)
         {
             Vector root = new Vector(vectors[0]);

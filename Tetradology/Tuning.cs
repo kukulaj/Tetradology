@@ -11,8 +11,8 @@ namespace Tetradology
         public int[] bases;
         public Tuning()
         {
-          edo = 118;
-          bases = new int[] { 3, 5, 9, 15 };
+          edo = 171;
+          bases = new int[] { 3, 5 , 7 , 9 };
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Diagnostics;
 
 namespace Tetradology
 {
@@ -15,11 +16,12 @@ namespace Tetradology
             Lattice TL = new Lattice(rand);
             Vector goal = new Vector(tuning);
             goal.power[0] = -3;
-            goal.power[1] = 0;
-            goal.power[2] = -2;
-            goal.power[3] = -1;
+            goal.power[1] = -3;
+            goal.power[2] = 4;
+            goal.power[3] = -3;
+            // goal.power[4] = -1; 
 
-
+            Debug.Assert(goal.pitch(rand) % tuning.edo == 0);
             Tetrad comma = new OTetrad(goal);
             Tetrad[] path = TL.walk(new OTetrad(new Vector(tuning)), comma);
 

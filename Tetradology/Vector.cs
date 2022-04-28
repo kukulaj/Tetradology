@@ -64,7 +64,7 @@ namespace Tetradology
 
             int bottom = 0;
 
-            /*
+            
             if(rand != null)
             {
                 
@@ -87,7 +87,7 @@ namespace Tetradology
                 }
                 bottom = offset;
             }
-            */
+            
 
             while (p < bottom)
             {

@@ -106,8 +106,12 @@ namespace Tetradology
             Tetrad[] path = sl.walk(start, endt);
             int insert = path.Length;
             Debug.Assert(insert == gap+1);
-  
-            
+
+            bool okay = start.equals(path[0]);
+            Debug.Assert(okay   );
+            okay = endt.equals(path[insert-1]);
+            Debug.Assert(okay);
+
             Tetrad[] replacement = new Tetrad[tetrads.Length - gap + insert-1];
             Console.WriteLine(string.Format("new loop is {0} long", replacement.Length));
 

@@ -15,6 +15,8 @@ namespace Tetradology
         public Random rand;
         Tetrad tfrom;
         int d;
+        int[] lowerbounds;
+        int[] upperbounds;
 
         bool[] scale;
         public Lattice(Random pr)
@@ -24,9 +26,9 @@ namespace Tetradology
 
             scale = new bool[1];
            scale[0] = true;
-         //  for(int i = 0; i < 19; i++)
-        //   {
-         //    scale[(i * 14) % scale.Length] = true;
+          // for(int i = 0; i < 37; i++)
+         // {
+          //   scale[(i * 16) % scale.Length] = true;
         // }
           
         }
@@ -44,8 +46,18 @@ namespace Tetradology
                     return false;
                 }
             }
-            
-            Tetrad t1 = t2;
+
+            for (int pi = 0; pi < t2.vectors[0].range; pi++)
+            {
+                if (t2.vectors[0].power[pi] < lowerbounds[pi] 
+                    || t2.vectors[0].power[pi] > upperbounds[pi])
+                {
+                    return false;
+                }
+            }
+
+
+                    Tetrad t1 = t2;
             if (tetrads.ContainsKey(st2))
             {
                 t1 = tetrads[st2];
@@ -72,6 +84,27 @@ namespace Tetradology
         {
             sgoal = tgoal.name();
             string sstart = start.name();
+
+            upperbounds = new int[start.vectors[0].range];
+            lowerbounds = new int[start.vectors[0].range];
+
+            
+            for(int pi = 0; pi < start.vectors[0].range; pi++)
+            {
+                if(start.vectors[0].power[pi] < tgoal.vectors[0].power[pi])
+                {
+                    lowerbounds[pi] = start.vectors[0].power[pi] - 2;
+                    upperbounds[pi] = tgoal.vectors[0].power[pi] + 2;
+                }
+                else
+                {
+                    lowerbounds[pi] = tgoal.vectors[0].power[pi] - 2;
+                    upperbounds[pi] = start.vectors[0].power[pi] + 2;
+                }
+            }
+
+            
+
 
             fromTetrads = new List<Tetrad>();
             toTetrads = new List<Tetrad>();
