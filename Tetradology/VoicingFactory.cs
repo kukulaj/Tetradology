@@ -7,6 +7,7 @@ namespace Tetradology
     public class VoicingFactory
     {
         Voicing prev;
+        Voicing next;
         Tetrad tetrad;
         Voicing best = null;
         int sbest = 0;
@@ -15,6 +16,14 @@ namespace Tetradology
         {
             tetrad = t;
             prev = p;
+            next = null;
+        }
+
+        public VoicingFactory(Tetrad t, Voicing p, Voicing n)
+        {
+            tetrad = t;
+            prev = p;
+            next = n;
         }
 
         public Voicing getBest()
@@ -55,6 +64,10 @@ namespace Tetradology
                         if (tv.valid())
                         {
                             int score = tv.distance(prev);
+                            if(next != null)
+                            {
+                                score += tv.distance(next);
+                            }
                             if (best == null || score < sbest)
                             {
                                 best = tv;
