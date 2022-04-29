@@ -9,7 +9,7 @@ namespace Tetradology
         static void Main(string[] args)
         {
             Console.WriteLine("Hello World!");
-            Random rand = new Random(102);
+            Random rand = new Random(103);
             Tuning tuning = new Tuning();
 
 

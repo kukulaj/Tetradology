@@ -54,7 +54,7 @@ namespace Tetradology
 
             spot = 0;
             t = 0.0;
-            d = 1.6;
+            d = 0.75;
         }
 
         public void optins(int i)

@@ -41,7 +41,7 @@ namespace Tetradology
 
             }
 
-            Debug.Assert(valid());
+            //Debug.Assert(valid());
             savePitches();
         }
         public Voicing(Tetrad pt, Voicing prev, int[] permute, bool below)
@@ -97,7 +97,7 @@ namespace Tetradology
             bool bad = false;
 
             int edo = tetrad.vectors[0].tuning.edo;
-            if (((p2 - p1 - tuning.ibad) % edo == 0) && p2 - p1 > edo)
+            if (((p2 - p1 + tuning.ibad) % edo == 0) && p2 - p1 > edo)
             {
                 bad = true;
             }
