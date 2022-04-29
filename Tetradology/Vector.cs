@@ -58,6 +58,10 @@ namespace Tetradology
             }
 
             p = p % tuning.edo;
+            if(p < 0)
+            {
+                p += tuning.edo;
+            }
             return p;
         }
         public int pitch(Random rand)

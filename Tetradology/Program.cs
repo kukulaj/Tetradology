@@ -15,10 +15,10 @@ namespace Tetradology
 
             Lattice TL = new Lattice(rand);
             Vector goal = new Vector(tuning);
-            goal.power[0] = 0;
-            goal.power[1] = 6;
-            goal.power[2] = 0;
-            goal.power[3] = 10;
+            goal.power[0] = 1;
+            goal.power[1] = -6;
+            goal.power[2] = 2;
+            goal.power[3] = 0;
             // goal.power[4] = -1; 
 
             Debug.Assert(goal.pitch(rand) % tuning.edo == 0);

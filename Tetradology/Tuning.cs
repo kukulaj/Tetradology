@@ -14,13 +14,13 @@ namespace Tetradology
         public int ubound;
         public Tuning()
         {
-          edo = 118;
+          edo = 53;
           bases = new int[] { 3, 5 , 9, 15 };
             ibad =
                     (int)(0.5 + ((double)edo) * Math.Log(15) / Math.Log(2));
 
-            lbound = -2 * edo;
-            ubound = 3 * edo;
+            lbound = - edo/2;
+            ubound = (5 * edo)/2;
         }
     }
 }
