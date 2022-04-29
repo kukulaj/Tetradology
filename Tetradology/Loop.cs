@@ -15,13 +15,17 @@ namespace Tetradology
         double t;
         double d;
         Tetrad comma;
+        HashSet<int> queued;
+        List<int> queue;
          
         public Loop(Random pr, StreamWriter file, Tetrad[]path, Tetrad pc)
         {
             rand = pr;
             comma = pc;
             int size = path.Length-1;
-           
+
+            queued = new HashSet<int>();
+            queue = new List<int>();
 
             tetrads = new Tetrad[size];
             voicings = new Voicing[size];
@@ -42,22 +46,50 @@ namespace Tetradology
             }
 
 
-            for (int ti = 0; ti < 4 * size; ti++)
-            {
-                int previ = (ti + size - 1) % size;
-                int tweaki = ti  % size;
-                int nexti = (ti + 1) % size;
-
-                VoicingFactory vf = new VoicingFactory(tetrads[tweaki],
-                    voicings[previ], voicings[nexti]);
-                voicings[tweaki] = vf.getBest();
-            }
+            optins(0);
+            optins(size - 1);
+            optimize();
 
             file.WriteLine(" ");
 
             spot = 0;
             t = 0.0;
             d = 1.6;
+        }
+
+        public void optins(int i)
+        {
+            if(!queued.Contains(i))
+            {
+                queued.Add(i);
+                queue.Add(i);
+            }
+        }
+        public void optimize()
+        {
+            int cnt = 0;
+            while(queue.Count > 0)
+            {
+                cnt++;
+                int tweaki = queue[0];
+                queue.RemoveAt(0);
+                queued.Remove(tweaki);
+
+                int previ = (tweaki + voicings.Length - 1) % voicings.Length;
+               
+                int nexti = (tweaki + 1) % voicings.Length;
+
+                VoicingFactory vf = new VoicingFactory(tetrads[tweaki],
+                    voicings[previ], voicings[nexti]);
+                Voicing nv = vf.getBest();
+                if(!nv.equal(voicings[tweaki]))
+                {
+                    voicings[tweaki] = nv;
+                    optins(previ);
+                    optins(nexti);
+                }
+            }
+            Console.WriteLine(string.Format("optimized {0}", cnt));
         }
 
         public void writeVectors(StreamWriter file)
@@ -173,7 +205,7 @@ namespace Tetradology
                 vrep[newi] = vf.getBest();
                 newi++;
             }
-            int lastnew = newi - 1;
+            int lastnew = newi-1;
 
             oldi = (endi + 1) % tetrads.Length;
 
@@ -186,23 +218,13 @@ namespace Tetradology
             }
             Debug.Assert(newi == replacement.Length);
 
-            for (int ri = 0; ri < 4; ri++)
-            {
-                for (int twi = 0; twi < gap; twi++)
-                {
-                    int previ = (vrep.Length +firstnew + twi - 1) % vrep.Length;
-                    int tweaki = (previ + 1) % vrep.Length;
-                    int nexti = (tweaki + 1) % vrep.Length;
-
-                    VoicingFactory vf = new VoicingFactory(replacement[tweaki],
-                        vrep[previ], vrep[nexti]);
-                    vrep[tweaki] = vf.getBest();
-                }
-            }
-
-
             tetrads = replacement;
             voicings = vrep;
+
+            optins(lastnew);
+            optins((lastnew + 1) % voicings.Length);
+            optimize();
+
             spot = 0;
         }
 

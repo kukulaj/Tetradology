@@ -150,6 +150,22 @@ namespace Tetradology
             return max;
         }
 
+        public bool equal(Voicing other)
+        {
+            bool same = true;
+            for(int i = 0; i < tetrad.range; i++)
+            {
+                if(order[i] != other.order[i])
+                {
+                    same = false;
+                }
+                if(octaves[i] != other.octaves[i])
+                {
+                    same = false;
+                }
+            }
+            return same;
+        }
         public double write(StreamWriter file, double t, double d)
         {
             for (int i = 0; i < tetrad.range; i++)
