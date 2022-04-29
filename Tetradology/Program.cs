@@ -15,10 +15,10 @@ namespace Tetradology
 
             Lattice TL = new Lattice(rand);
             Vector goal = new Vector(tuning);
-            goal.power[0] = -3;
-            goal.power[1] = -3;
-            goal.power[2] = 4;
-            goal.power[3] = -3;
+            goal.power[0] = 0;
+            goal.power[1] = 6;
+            goal.power[2] = 0;
+            goal.power[3] = 10;
             // goal.power[4] = -1; 
 
             Debug.Assert(goal.pitch(rand) % tuning.edo == 0);
@@ -43,9 +43,9 @@ namespace Tetradology
             file.WriteLine("f7 0 4096 10 1 0.6 0.2 0.1 0.3");
 
             Loop loop = new Loop(rand, vfile, path, comma);
-            for (int si = 0; si < 30; si++)
+            for (int si = 0; si < 40; si++)
             {
-                loop.write(file, 6 + rand.Next(6));
+                loop.write(file, 8 + rand.Next(8));
                 loop.swap(vfile);
             }
 

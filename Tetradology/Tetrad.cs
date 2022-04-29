@@ -178,11 +178,11 @@ namespace Tetradology
             
             for(int i = 0; i < range; i++)
             {
-                vectors[order[i]].write(file, tstart, pd * 0.95, 1200, i%2);
+                vectors[i].write(file, tstart, pd * 0.95, 1200, 1 - i%2, rand);
             }
 
 
-            vectors[0].write(file, tstart, pd * 0.95,  1200, -2);
+            //vectors[0].write(file, tstart, pd * 0.95,  1200, -2);
 
            
             return tstart + pd;

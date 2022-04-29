@@ -14,11 +14,13 @@ namespace Tetradology
         double t;
         double d;
         Tetrad comma;
+        Voicing voicing;
         public Loop(Random pr, StreamWriter file, Tetrad[]path, Tetrad pc)
         {
             rand = pr;
             comma = pc;
             int size = path.Length-1;
+            voicing = null;
 
             tetrads = new Tetrad[size];
             
@@ -31,7 +33,7 @@ namespace Tetradology
 
             spot = 0;
             t = 0.0;
-            d = 0.6;
+            d = 1.6;
         }
 
         public void writeVectors(StreamWriter file)
@@ -48,7 +50,17 @@ namespace Tetradology
         {
             for(int ci=0; ci < cnt; ci++)
             {
-                 t = tetrads[spot].write(file, t, d);
+                if(voicing == null)
+                {
+                    voicing = new Voicing(tetrads[spot]);
+                }
+                else 
+                {
+                    VoicingFactory vf = new VoicingFactory(tetrads[spot], voicing);
+                    voicing = vf.getBest();
+                }
+
+                 t = voicing.write(file, t, d);
                 spot = (spot + 1) % tetrads.Length;
                 
             }

@@ -11,7 +11,7 @@ namespace Tetradology
         static int offset = 0;
         public int[] power;
         public int range;
-        Tuning tuning;
+        public Tuning tuning;
         public Vector(Tuning t)
         {
             tuning = t;
@@ -48,23 +48,26 @@ namespace Tetradology
             }
         }
 
-        public int pitch(Random rand)
+        public int spitch()
         {
-             
-
             int p = 0;
             for (int i = 0; i < range; i++)
             {
-                p += power[i] * 
-                    (int)(0.5 + ((double)tuning.edo) * Math.Log(tuning.bases[i]) / Math.Log(2)) ;
+                p += power[i] *
+                    (int)(0.5 + ((double)tuning.edo) * Math.Log(tuning.bases[i]) / Math.Log(2));
             }
 
-
             p = p % tuning.edo;
+            return p;
+        }
+        public int pitch(Random rand)
+        {
+            int p = spitch();
 
+            return p;
             int bottom = 0;
 
-            
+            /*
             if(rand != null)
             {
                 
@@ -72,14 +75,14 @@ namespace Tetradology
                 { 
                     if(rand.Next(2)==0)
                     { 
-                        if(offset > 0)
+                        if(offset > -tuning.edo/2)
                         {
                             offset--;
                         }
                     }
                     else 
                     {
-                        if (offset < tuning.edo)
+                        if (offset < tuning.edo/2)
                         {
                             offset++;
                         }
@@ -87,11 +90,15 @@ namespace Tetradology
                 }
                 bottom = offset;
             }
-            
+            */
 
             while (p < bottom)
             {
                 p += tuning.edo;
+            }
+            while (p > bottom + tuning.edo)
+            {
+                p -= tuning.edo;
             }
             return p;
         }

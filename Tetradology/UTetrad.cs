@@ -17,7 +17,7 @@ namespace Tetradology
 
         public override int shift(int i)
         {
-            return i/3;
+            return i/2;
         }
         public override Tetrad subtract(Tetrad t2)
         {
