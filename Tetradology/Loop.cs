@@ -57,6 +57,11 @@ namespace Tetradology
             d = 0.75;
         }
 
+        public int length()
+        {
+            return tetrads.Length;
+        }
+
         public void optins(int i)
         {
             if(!queued.Contains(i))
