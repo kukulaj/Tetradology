@@ -11,16 +11,19 @@ namespace Tetradology
         Tetrad tetrad;
         Voicing best = null;
         int sbest = 0;
+        Random rand;
 
-        public VoicingFactory(Tetrad t, Voicing p)
+        public VoicingFactory(Tetrad t, Voicing p, Random pr)
         {
+            rand = pr;
             tetrad = t;
             prev = p;
             next = null;
         }
 
-        public VoicingFactory(Tetrad t, Voicing p, Voicing n)
+        public VoicingFactory(Tetrad t, Voicing p, Voicing n, Random pr)
         {
+            rand = pr;
             tetrad = t;
             prev = p;
             next = n;
@@ -68,7 +71,9 @@ namespace Tetradology
                             {
                                 score += tv.distance(next);
                             }
-                            if (best == null || score < sbest)
+                            if (best == null 
+                                || score < sbest 
+                                || (score == sbest && rand.Next(2)==0))
                             {
                                 best = tv;
                                 sbest = score;

@@ -16,6 +16,7 @@ namespace Tetradology
 
         public int range;
         public Vector[] vectors;
+         
         public List<Tetrad> parent;
         public int distance;
 
@@ -25,6 +26,8 @@ namespace Tetradology
             parent = new List<Tetrad>();
             vectors = new Vector[range];
             vectors[0] = new Vector(v);
+            
+
 
             tfuzz = new Fuzz(rand, 0.3, 0.015);
             lfuzz = new Fuzz(rand, 0.4, 0.1);
@@ -68,6 +71,7 @@ namespace Tetradology
 
         public bool branch(Lattice lattice)
         {
+            string st2 = name();
             bool found = false;
             for (int i = 1; i < range; i++)
             {

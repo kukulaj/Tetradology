@@ -40,7 +40,7 @@ namespace Tetradology
                 }
                 else
                 {
-                    VoicingFactory vf = new VoicingFactory(tetrads[ti], voicings[ti-1]);
+                    VoicingFactory vf = new VoicingFactory(tetrads[ti], voicings[ti-1], rand);
                     voicings[ti] = vf.getBest();
                 }
             }
@@ -85,7 +85,7 @@ namespace Tetradology
                 int nexti = (tweaki + 1) % voicings.Length;
 
                 VoicingFactory vf = new VoicingFactory(tetrads[tweaki],
-                    voicings[previ], voicings[nexti]);
+                    voicings[previ], voicings[nexti], rand);
                 Voicing nv = vf.getBest();
                 if(!nv.equal(voicings[tweaki]))
                 {
@@ -119,7 +119,7 @@ namespace Tetradology
 
         public void swap(StreamWriter file)
         {
-            int gap =4;
+            int gap =6;
             int starti = 0;
             
             starti = (spot + rand.Next(tetrads.Length - gap - 2)) % tetrads.Length;
@@ -200,11 +200,11 @@ namespace Tetradology
                 if (pi == 0)
                 {
                     vf = new VoicingFactory(path[pi],
-                        voicings[(tetrads.Length + oldi - 1) % tetrads.Length]) ;
+                        voicings[(tetrads.Length + oldi - 1) % tetrads.Length], rand) ;
                 }
                 else 
                 {
-                    vf = new VoicingFactory(path[pi], vrep[newi - 1]);
+                    vf = new VoicingFactory(path[pi], vrep[newi - 1], rand);
                 }
                  
                 vrep[newi] = vf.getBest();

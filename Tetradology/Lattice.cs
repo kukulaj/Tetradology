@@ -25,12 +25,19 @@ namespace Tetradology
             tetrads = new Dictionary<string, Tetrad>();
 
             scale = new bool[1];
-         scale[0] = true;
-         // for(int i = 0; i < 8; i++)
-          //{
-           //  scale[(29 + i * 7) % scale.Length] = true;
-         //}
-          
+            scale[0] = true;
+         //   int[] plant = new int[] {0, 2, 4, 7, 9, 11, 13, 16, 18, 20 };
+            
+          //  for(int si = 0; si < plant.Length; si++)
+         //   {
+          //      scale[(plant[si])%scale.Length] = true;
+          //  }
+         
+            // for(int i = 0; i < 8; i++)
+            //{
+            //  scale[(29 + i * 7) % scale.Length] = true;
+            //}
+
         }
 
         public bool insert(Tetrad t2)
@@ -38,15 +45,20 @@ namespace Tetradology
             bool found = false;
             string st2 = t2.name();
 
-            
-            for(int i = 0; i < t2.range; i++)
+            int[] pitches = new int[t2.range];
+            for (int i = 0; i < t2.range; i++)
             {
-                if(!scale[t2.vectors[i].pitch(null) % scale.Length])
+                pitches[i] = t2.vectors[i].pitch(null) % scale.Length;
+            }
+            ;
+            for (int i = 0; i < t2.range; i++)
+            {
+                if(!scale[pitches[i]])
                 {
                     return false;
                 }
             }
-
+            
             for (int pi = 0; pi < t2.vectors[0].range; pi++)
             {
                 if (t2.vectors[0].power[pi] < lowerbounds[pi] 
@@ -55,7 +67,7 @@ namespace Tetradology
                     return false;
                 }
             }
-
+            
 
                     Tetrad t1 = t2;
             if (tetrads.ContainsKey(st2))
